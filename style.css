@@ -1,0 +1,49 @@
+body {
+    background-image: url("../Entrega final/assets/fondo.png");
+}
+
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    font-size: 36px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #c5a3f1;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+
+header img {
+    width: 100px;
+    height: auto;
+}
+
+
+.categorias {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.categorias button {
+    background-color: #e4a1ec;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 5px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.categorias button:hover {
+    background-color: #ca8ed6;
+}

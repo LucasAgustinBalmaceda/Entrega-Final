@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Compras - Librería</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url("../Entrega final/assets/fondo.png");
+            background-size: cover;
+        }
+        .productos-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .producto {
+            margin: 10px;
+            text-align: center;
+            width: calc(50% - 20px);
+            padding: 20px;
+        }
+        .producto img {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 20 auto 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Librería</h1>
+        <img src="../Entrega final/assets/logo.png" alt="Logo de la Librería">
+    </header>
+    
+    <div class="categorias">
+        <button onclick="filtrarProductos('todos')">Todos</button>
+        <button onclick="filtrarProductos('hojas')">Hojas</button>
+        <button onclick="filtrarProductos('carpetas')">Carpetas</button>
+        <button onclick="filtrarProductos('lapices')">Lapices</button>
+        <button onclick="filtrarProductos('cuadernos')">Cuadernos</button>
+        <button onclick="filtrarProductos('lapiceras')">Lapiceras</button>
+    </div>
+
+    <div id="productos-container" class="productos-container">
+    </div>
+
+    <div class="botones">
+        <button type="button" id="calcular-total">Calcular Total</button>
+        <button type="button" id="comprar">Comprar</button>
+    </div>
+
+    <div id="resultado"></div>
+
+    <script>
+    
+        function generarProductos() {
+            const productosContainer = document.getElementById('productos-container');
+
+            productos.forEach(producto => {
+                const productoDiv = document.createElement('div');
+                productoDiv.classList.add('producto');
+                productoDiv.dataset.id = producto.id;
+                productoDiv.dataset.categoria = producto.categoria;
+
+                productoDiv.innerHTML = `
+                    <label for="cantidad_${producto.id}">${producto.nombre}:</label>
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <input type="number" id="cantidad_${producto.id}" name="cantidad_${producto.id}" value="${producto.cantidad}" min="0">
+                `;
+
+                productosContainer.appendChild(productoDiv);
+
+                document.getElementById(`cantidad_${producto.id}`).addEventListener('change', (event) => {
+                    const cantidad = parseInt(event.target.value);
+                    productos.find(p => p.id === producto.id).cantidad = isNaN(cantidad) ? 0 : cantidad;
+                });
+            });
+        }
+       
+         function filtrarProductos(categoria) {
+            const productos = document.querySelectorAll('.producto');
+
+            productos.forEach(producto => {
+                const categoriaProducto = producto.dataset.categoria;
+
+                if (categoria === 'todos') {
+                    producto.style.display = 'block';
+                } else {
+                    if (categoriaProducto === categoria) {
+                        producto.style.display = 'block';
+                    } else {
+                        producto.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        function calcularTotal() {
+            const subtotal = productos.reduce((total, producto) => {
+                return total + producto.cantidad * producto.precio;
+            }, 0);
+
+            const descuento = subtotal > 10000 ? subtotal * 0.10 : 0;
+            const totalCompra = subtotal - descuento;
+
+            mostrarResultado(subtotal, descuento, totalCompra);
+        }
+
+        function mostrarResultado(subtotal, descuento, total) {
+            const resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = `
+                <p>Subtotal: $${subtotal.toFixed(2)}</p>
+                <p>Descuento: $${descuento.toFixed(2)}</p>
+                <p>Total de la compra: $${total.toFixed(2)}</p>
+            `;
+        }
+
+        function comprar() {
+            alert('Compra realizada. Gracias por su compra!');
+        }
+
+        window.onload = function() {
+            generarProductos();
+
+            document.getElementById("calcular-total").addEventListener("click", calcularTotal);
+            document.getElementById("comprar").addEventListener("click", comprar);
+        };
+    </script>
+     <script src="main.js"></script>
+</body>
+</html>
